@@ -1,0 +1,56 @@
+﻿@page
+@model BrandModel
+@{
+	ViewData["Title"] = "Marcas de productos";
+}
+@if (Model.Mensaje != null)
+{
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		@Model.Mensaje
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+}
+
+<div class="card mt-5">
+	<div class="card-header" style="background-color:blueviolet">
+		<div class="row">
+			<div class="col-sm-9">
+				<h2 style="color: white">Lista de marcas</h2>
+			</div>
+			<div class="col-sm-3">
+				<a asp-page="CreateBrand" class="btn btn-outline-light">Crear nueva marca</a>
+			</div>
+		</div>
+	</div>
+	
+	<div class="card-body">
+		<form method="POST">
+			@if (Model.Brands.Count() > 0)
+			{
+				<br />
+				<table class="table table-striped border">
+					<tr class="table-secondary">
+						<th>@Html.DisplayNameFor(b => b.Brands.First().id)</th>
+						<th>@Html.DisplayNameFor(b => b.Brands.First().BrandName)</th>
+						<th>@Html.DisplayNameFor(b => b.Brands.First().Descripcion)</th>
+						<th>@Html.DisplayNameFor(b => b.Brands.First().Pais)</th>
+						<th>Acciones</th>
+					</tr>
+					@foreach (var item in Model.Brands)
+					{
+						<tr>
+							<th>@Html.DisplayFor(b => item.id)</th>
+							<th>@Html.DisplayFor(b => item.BrandName)</th>
+							<th>@Html.DisplayFor(b => item.Descripcion)</th>
+							<th>@Html.DisplayFor(b => item.Pais)</th>
+							<th>
+								<a asp-route-id="@item.id" asp-page="EditBrand" class="btn btn-success btn-sm">Editar</a>
+								<button asp-page-handler="Borrar" asp-route-id="@item.id" onclick="return confirm('Estas seguro de querer borrar la marca?')" class="btn btn-danger btn-sm">Borrar</button>
+							</th>
+						</tr>
+					}
+				</table>
+			}
+		</form>
+	</div>
+</div>

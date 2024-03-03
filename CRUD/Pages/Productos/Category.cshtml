@@ -1,0 +1,63 @@
+﻿@page
+@model CategoryModel
+@{
+	ViewData["Title"] = "Categorias";
+}
+
+
+@if (Model.Mensaje != null)
+{
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		@Model.Mensaje
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+}
+<div class="card mt-5">
+	<div class="card-header" style="background-color:blueviolet">
+		<div class="row">
+			<div class="col-sm-9">
+				<h2 style="color: white">Lista de Categorias</h2>
+			</div>
+			<div class="col-sm-3">
+				<a asp-page="CreateCategory" class="btn btn-outline-light">Crear nueva categoria</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-body">
+		<form method="POST">
+			@if (Model.Categories.Count() > 0)
+			{
+				<br />
+				<table class="table table-striped border">
+					<tr class="table-secondary">
+						<th>@Html.DisplayNameFor(m => m.Categories.First().Id)</th>
+						<th>@Html.DisplayNameFor(m => m.Categories.First().CategoryName)</th>
+						<th>@Html.DisplayNameFor(m => m.Categories.First().Descripcion)</th>
+
+						
+						<th>Acciones</th>
+					</tr>
+					@foreach (var item in Model.Categories)
+					{
+						<tr>
+							<td>@Html.DisplayFor(m => item.Id)</td>
+							<td>@Html.DisplayFor(m => item.CategoryName)</td>
+							<td>@Html.DisplayFor(m => item.Descripcion)</td>
+							<td>
+								<a asp-route-id="@item.Id" asp-page="EditCategory" class="btn btn-success btn-sm">Editar</a>
+								<button asp-page-handler="Borrar" asp-route-id="@item.Id" onclick="return confirm('Esta seguro de querer de querer borrar la categoria?')" class="btn btn-danger btn-sm">Borrar</button>
+							</td>
+						</tr>
+
+					}
+				</table>
+			}
+			else
+			{
+				<p>No hay categorias disponibles</p>
+			}
+		</form>
+	</div>
+
+</div>
